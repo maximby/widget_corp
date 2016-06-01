@@ -36,10 +36,10 @@ CREATE TABLE IF NOT EXISTS `admins` (
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `pages`
+-- Структура таблицы `page`
 --
 
-CREATE TABLE IF NOT EXISTS `pages` (
+CREATE TABLE IF NOT EXISTS `page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `subject_id` int(11) NOT NULL,
   `menu_name` varchar(50) NOT NULL,

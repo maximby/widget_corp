@@ -1,36 +1,31 @@
 <?php
+ini_set('display_errors','On');
+error_reporting('E_ALL');
+
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/db_connection.php';
+include __DIR__ . '/../includes/layouts/header.php';
 
-include __DIR__ . '/../includes/layouts/header.php' ?>
+if (isset($_GET['subject'])) {
+    $selected_subject_id = $_GET['subject'];
+    $selected_page_id = null;
+} elseif (isset($_GET['page'])) {
+    $selected_page_id = $_GET['page'];
+    $selected_subject_id = null;
+} else {
+    $selected_subject_id = null;
+    $selected_page_id = null;
+}
+?>
+
     <div id="main">
         <div id="navigator">
-           <ul class="subjects">
-           <?php
-           $subject_set = find_all_subjects();
-             while ($subject = mysqli_fetch_assoc($subject_set)):
-           ?>
-               <li><?php echo $subject['menu_name'] ;
-                       $pages_set = find_pages_for_subjects($subject['id'])
-                   ?>
-                   <ul class="pages">
-                       <?php while ($pages = mysqli_fetch_assoc($pages_set)):?>
-                     <li><?php echo $pages['menu_name']?></li>
-                    <?php
-                        endwhile;
-                       mysqli_free_result($pages_set);
-                    ?>
-                   </ul>
-               </li>
-           <?php
-             endwhile;
-             mysqli_free_result($subject_set);
-           ?>
-           </ul>
-
+            <?php echo navigation($selected_subject_id, $selected_page_id) ?>
         </div> <!-- navigator -->
         <div id="page">
             <h2>Manage Content</h2>
+            <?php echo $selected_subject_id;?> <br />
+            <?php echo $selected_page_id;?>
 
         </div> <!-- page -->
     </div> <!--main -->
