@@ -32,7 +32,7 @@ if (isset($_POST['submit'])) {
        // echo $query;
         $result = mysqli_query($connection, $query);
 
-        if ($result && mysqli_affected_rows($connection) == 1) {
+        if ($result && mysqli_affected_rows($connection) >= 0) {
             $_SESSION['message']  = "Subject updated.";
             redirect_to('manage_content.php');
         } else {
@@ -59,13 +59,13 @@ include __DIR__ . '/../includes/layouts/header.php';
     <div id="page">
         <?php
         if (!empty($message)) {
-            echo "<div class='message'>{$message}</div>";
+            echo "<div class='message'>" . htmlentities($message) . "</div>";
         }
         //$errors = errors();
         echo form_errors($errors)?>
         <h2>Edit Subject: <?php echo $current_subject['menu_name'] ?></h2>
 
-        <form action="edit_subject.php?subject=<?php echo $current_subject['id'] ?>" method="post">
+        <form action="edit_subject.php?subject=<?php echo urlencode($current_subject['id']) ?>" method="post">
             <p>Menu name:
                 <input type="text" name="menu_name" value="<?php echo $current_subject['menu_name'] ?>" />
             </p>
@@ -96,6 +96,10 @@ include __DIR__ . '/../includes/layouts/header.php';
         </form>
         <br />
         <a href="manage_content.php">Cancel</a>
+        &nbsp;
+        &nbsp;
+        <a href="delete_subject.php?subject=<?php echo  urlencode($current_subject['id']) ?>"
+           onclick="return confirm('Вы уверены?');" >Deleted subject</a>
     </div>
 </div>
 

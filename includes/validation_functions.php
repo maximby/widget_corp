@@ -48,7 +48,7 @@ function form_errors($errors=[]) {
         $output .= "Please fix the following errors:";
         $output .= "<ul>";
         foreach ($errors as $key => $error ) {
-            $output .= "<li>{$error}</li>" ;
+            $output .= "<li>" . htmlentities($error) . "</li>" ;
         }
         $output .= "</ul>";
         $output .= "</div>";
