@@ -6,18 +6,40 @@ $query = 'SELECT * ';
 $query .= 'FROM subjects ';
 $query .= 'WHERE visible = 1 ';
 $query .= 'ORDER BY position ASC';
-$result = mysqli_query($connection, $query);
-confirm_query($result);
+$subject_set = mysqli_query($connection, $query);
+confirm_query($subject_set);
 
 include __DIR__ . '/../includes/layouts/header.php' ?>
     <div id="main">
         <div id="navigator">
            <ul class="subjects">
            <?php
-             while ($subject = mysqli_fetch_assoc($result)):
+             while ($subject = mysqli_fetch_assoc($subject_set)):
            ?>
-               <li><?php echo $subject['menu_name'] . ' (' . $subject['id'] . ')';?></li>
-           <?php endwhile; ?>
+               <li><?php echo $subject['menu_name'] ;
+
+                       $query = 'SELECT * ';
+                       $query .= 'FROM pages ';
+                       $query .= 'WHERE visible = 1 ';
+                       $query .= 'AND subject_id = ' . $subject['id'];
+                       $query .= ' ORDER BY position ASC';
+                       $pages_set = mysqli_query($connection, $query);
+                       confirm_query($pages_set);
+
+                   ?>
+                   <ul class="pages">
+                       <?php while ($pages = mysqli_fetch_assoc($pages_set)):?>
+                     <li><?php echo $pages['menu_name']?></li>
+                    <?php
+                        endwhile;
+                       mysqli_free_result($pages_set);
+                    ?>
+                   </ul>
+               </li>
+           <?php
+             endwhile;
+             mysqli_free_result($subject_set);
+           ?>
            </ul>
 
         </div> <!-- navigator -->
@@ -27,6 +49,5 @@ include __DIR__ . '/../includes/layouts/header.php' ?>
         </div> <!-- page -->
     </div> <!--main -->
 <?php
-mysqli_free_result($result);
 include __DIR__ . '/../includes/layouts/footer.php'
 ?>
