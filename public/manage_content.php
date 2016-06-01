@@ -18,8 +18,10 @@ find_selected_page();
             echo message();
             if ($current_subject) {?>
                 <h2>Manage Subject</h2>
-             <?php
-                echo "Menu name: " . $current_subject['menu_name'];
+             <?php echo "Menu name: " . $current_subject['menu_name'] ?>
+                <br/>
+                <a href="edit_subject.php?subject=<?php echo $current_subject['id'];?>">Edit Subject</a>
+                <?php
             } elseif ($current_page) {?>
                 <h2>Manage Page</h2>
                 <?php
