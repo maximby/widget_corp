@@ -3,6 +3,7 @@ require_once __DIR__ . '/../includes/session.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/validation_functions.php';
 require_once __DIR__ . '/../includes/db_connection.php';
+$layout_context = 'admin';
 include __DIR__ . '/../includes/layouts/header.php';
 
 find_selected_page();

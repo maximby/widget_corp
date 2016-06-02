@@ -4,6 +4,7 @@ require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/validation_functions.php';
 require_once __DIR__ . '/../includes/db_connection.php';
 ob_start();
+$layout_context = 'admin';
 include __DIR__ . '/../includes/layouts/header.php';
 
 if (!$_GET['subject']) {

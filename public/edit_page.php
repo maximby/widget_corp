@@ -47,7 +47,7 @@ if (isset($_POST['submit'])) {
 } // end: if (isset($_POST['submit']))
 
 
-
+$layout_context = 'admin';
 include __DIR__ . '/../includes/layouts/header.php';
 
 
@@ -73,7 +73,7 @@ include __DIR__ . '/../includes/layouts/header.php';
             <p>Position:
                 <select name="position" >
                     <?php
-                    $page_set = find_all_subjects();
+                    $page_set = find_all_subjects(false);
                     $page_count = mysqli_num_rows($page_set);
                     for($count=1; $count <= $page_count; $count++) {
                         echo "<option value=\"{$count}\"";

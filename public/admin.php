@@ -1,5 +1,8 @@
-<?php include __DIR__ . '/../includes/functions.php' ?>
-<?php include __DIR__ . '/../includes/layouts/header.php' ?>
+<?php
+include __DIR__ . '/../includes/functions.php' ;
+$layout_context = 'admin';
+include __DIR__ . '/../includes/layouts/header.php'
+?>
     <div id="main">
         <div id="navigator">
             &nbsp;
