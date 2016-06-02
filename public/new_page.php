@@ -3,8 +3,12 @@ require_once __DIR__ . '/../includes/session.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/validation_functions.php';
 require_once __DIR__ . '/../includes/db_connection.php';
+ob_start();
 include __DIR__ . '/../includes/layouts/header.php';
 
+if (!$_GET['subject']) {
+    redirect_to('manage_content.php');
+}
 find_selected_page();
 ?>
 
@@ -16,18 +20,18 @@ find_selected_page();
         <?php echo message();
         $errors = errors();
         echo form_errors($errors)?>
-        <h2>Create Subject</h2>
+        <h2>Create Page</h2>
 
-        <form action="create_subject.php" method="post">
+        <form action="create_page.php" method="post">
             <p>Menu name:
                 <input type="text" name="menu_name" value="" />
             </p>
             <p>Position:
                 <select name="position">
                     <?php
-                    $subject_set = find_all_subjects();
-                    $subject_count = mysqli_num_rows($subject_set);
-                    for($count=1; $count <= ($subject_count + 1); $count++) {
+                    $page_set = find_pages_for_subjects($_GET['subject']);
+                    $page_count = mysqli_num_rows($page_set);
+                    for($count=1; $count <= ($page_count + 1); $count++) {
                         echo "<option value=\"{$count}\">{$count}</option>";
                     }
                     ?>
@@ -38,11 +42,16 @@ find_selected_page();
                 &nbsp;
                 <input type="radio" name="visible" value="1" /> Yes
             </p>
-            <input type="submit" name="submit" value="Create Subject" />
+            <p>Content:<br/>
+                <textarea rows="17" cols="90" name="content"></textarea>
+            </p>
+            <input type="hidden" name="subject_id" value="<?php echo $_GET['subject']?>">
+            <input type="submit" name="submit" value="Create Page" />
         </form>
         <br />
         <a href="manage_content.php">Cancel</a>
     </div>
 </div>
-
-<?php include("../includes/layouts/footer.php"); ?>
+<?php
+ob_end_flush();
+include("../includes/layouts/footer.php");

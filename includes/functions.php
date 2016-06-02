@@ -30,6 +30,19 @@ function find_all_subjects()
     return $subject_set;
 }
 
+// Поиск всех страниц
+function find_all_pages_for_subject()
+{
+    global $connection;
+    $query = 'SELECT * ';
+    $query .= 'FROM pages ';
+   // $query .= 'WHERE visible = 1 ';
+    $query .= 'ORDER BY position ASC';
+    $subject_set = mysqli_query($connection, $query);
+    confirm_query($subject_set);
+    return $subject_set;
+}
+
 // Поиск всех страниц для объекта
 function find_pages_for_subjects($subject_id)
 {
@@ -94,8 +107,8 @@ function find_selected_page() {
         $current_page = find_page_by_id($_GET['page']);
         $current_subject = null;
     } else {
-        $current_subject = null;
         $current_page = null;
+        $current_subject = null;
     }
 
 }

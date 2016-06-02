@@ -8,7 +8,7 @@ function fieldname_as_text($fieldname) {
 }
 
 function has_presence($value) {
-    return isset($value) && $value !== "";
+    return isset($value) && $value !== "" ;
 }
 
 function validate_presence($required_fields) {
