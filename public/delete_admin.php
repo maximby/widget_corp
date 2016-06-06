@@ -3,11 +3,12 @@ require_once __DIR__ . '/../includes/session.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/validation_functions.php';
 require_once __DIR__ . '/../includes/db_connection.php';
-
+confirm_logged_in();
+ob_start();
 if (!$current_admin = find_admin_by_id($_GET['admin'])) {
     redirect_to('manage_admins.php');
 }
-ob_start();
+
 include __DIR__ . '/../includes/layouts/header.php';
 $id = $current_admin['id'];
 

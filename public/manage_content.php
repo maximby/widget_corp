@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../includes/session.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/db_connection.php';
-
+confirm_logged_in();
 $layout_context = 'admin';
 include __DIR__ . '/../includes/layouts/header.php';
 

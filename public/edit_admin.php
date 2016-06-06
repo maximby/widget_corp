@@ -3,16 +3,16 @@ require_once __DIR__ . '/../includes/session.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/validation_functions.php';
 require_once __DIR__ . '/../includes/db_connection.php';
-
-
+confirm_logged_in();
+ob_start();
 if (!$current_admin = find_admin_by_id($_GET['admin'])) {
     redirect_to('manage_admins.php');
 }
-ob_start();
-if (isset($_POST['submit'])) {
 
+if (isset($_POST['submit'])) {
+    ;
     $username = mysql_prep($_POST['username']);
-    $password = mysql_prep($_POST['password']);
+    $hashed_password = password_encrypt($_POST['password']);
 
     // validation
     $required_fields = ['username', 'password'];
@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
 
         $id =$current_admin['id'];
         $query = "UPDATE admins SET " ;
-        $query .= "  username ='{$username}', hashed_password ='{$password}'";
+        $query .= "  username ='{$username}', hashed_password ='{$hashed_password}'";
         $query .= " WHERE id = $id";
         $query .= " LIMIT 1";
       // echo $query; die;
@@ -60,7 +60,6 @@ include __DIR__ . '/../includes/layouts/header.php';
     <div id="page">
 
         <?php echo message();
-            $errors = errors();
             echo form_errors($errors)?>
         <h2>Create Page</h2>
 

@@ -4,11 +4,12 @@ require_once __DIR__ . '/../includes/session.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/validation_functions.php';
 require_once __DIR__ . '/../includes/db_connection.php';
+confirm_logged_in();
 ob_start();
 if (isset($_POST['submit'])) {
 
     $username = mysql_prep($_POST['username']);
-    $password = mysql_prep($_POST['password']);
+    $hashed_password = password_encrypt($_POST['password']);
 
     // validation
     $required_fields = ['username', 'password'];
@@ -27,7 +28,7 @@ if (isset($_POST['submit'])) {
     $query .= " username,  hashed_password ";
     $query .= ")";
     $query .= " VALUES (";
-    $query .= " '{$username}' , '{$password}'";
+    $query .= " '{$username}' , '{$hashed_password}'";
     $query .= ")";
     ///echo $query;die;
     $result = mysqli_query($connection, $query);

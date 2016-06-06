@@ -3,7 +3,7 @@ require_once __DIR__ . '/../includes/session.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/validation_functions.php';
 require_once __DIR__ . '/../includes/db_connection.php';
-
+confirm_logged_in();
 find_selected_page();
  if (!$current_subject) {
      redirect_to('manage_content.php');

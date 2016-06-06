@@ -152,12 +152,29 @@ function find_all_admins() {
 function find_admin_by_id($admin_id) {
     global $connection;
 
-    $safe_admin_id = mysqli_real_escape_string($connection, $admin_id);
+    $admin_id = (int) $admin_id;
     $query = 'SELECT * ';
     $query .= 'FROM admins ';
-    $query .= 'WHERE  id = ' . $safe_admin_id;
+    $query .= 'WHERE  id = ' . $admin_id;
     $query .= ' LIMIT 1';
     //echo $query;die;
+    $admin_set = mysqli_query($connection, $query);
+    confirm_query($admin_set);
+    if ($admin = mysqli_fetch_assoc($admin_set)) {
+        return $admin;
+    } else {
+        null;
+    }
+}
+
+function find_admin_by_username($username) {
+    global $connection;
+
+    $username = mysql_prep($username);
+    $query = 'SELECT * ';
+    $query .= 'FROM admins ';
+    $query .= "WHERE  username = '{$username}'";
+    $query .= ' LIMIT 1';
     $admin_set = mysqli_query($connection, $query);
     confirm_query($admin_set);
     if ($admin = mysqli_fetch_assoc($admin_set)) {
@@ -259,5 +276,47 @@ function public_navigation($subject_array, $page_array)
     return $output;
 }
 
+function general_salt($length) {
+    $unique_random_string = md5(uniqid(mt_rand(), true));
+    $base64_string = base64_encode($unique_random_string);
+    $modified_base64_string = str_replace('+', '.', $base64_string);
+    $salt = substr($modified_base64_string, 0, $length);
+    return $salt;
+}
 
+function password_encrypt($password) {
+    $hash_format = '$2y$11$';
+    $salt_length = 22;
+    $salt = general_salt($salt_length);
+    $format_and_salt = $hash_format.$salt;
 
+    $hash = crypt($password, $format_and_salt);
+   return $hash;
+}
+
+function password_check($password, $hash) {
+    return crypt($password, $hash) === $hash;
+}
+
+function attempt_login($username, $password) {
+    $admin = find_admin_by_username($username);
+    if($admin) {
+        if (password_check($password, $admin['hashed_password'])) {
+            return $admin;
+        } else {
+            return false;
+        }
+
+    } else {
+        return false;
+    }
+
+}
+function logged_in() {
+   return isset($_SESSION['admin_id']);
+}
+function confirm_logged_in() {
+    if (!logged_in()){
+        redirect_to('login.php');
+    }
+}
